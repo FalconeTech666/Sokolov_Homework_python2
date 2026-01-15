@@ -1,7 +1,7 @@
 import socket
 import turtle
 
-HOST = ("192.168.100.79", 5555)
+HOST = ("3.3.3.3", 5555)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(HOST)

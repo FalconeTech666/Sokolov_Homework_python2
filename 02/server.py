@@ -48,6 +48,8 @@
 
 
 import socket
+import os
+print("CWD:", os.getcwd())
 
 def send_file(file_name, conn):
     try:

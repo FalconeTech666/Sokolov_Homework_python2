@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Главная — Животные и погода{% endblock %}
+
+{% block content %}
+<h1>Главная страница</h1>
+
+<p>Выбери один из разделов приложения:</p>
+
+<ul>
+    <li><a href="{{ url_for('duck') }}">Случайная утка</a></li>
+    <li>
+        Лисы (пример):
+        <a href="{{ url_for('fox', count=1) }}">1 лиса</a>,
+        <a href="{{ url_for('fox', count=3) }}">3 лисы</a>
+    </li>
+    <li><a href="{{ url_for('weather_minsk') }}">Погода в Минске</a></li>
+    <li>
+        Погода в городе (пример):
+        <a href="{{ url_for('weather_city', city='Minsk') }}">Minsk</a>,
+        <a href="{{ url_for('weather_city', city='London') }}">London</a>
+    </li>
+</ul>
+
+<p class="muted">
+    Подсказка: можно вводить свои города в адресе, например
+    <code>/weather/Paris/</code>.
+</p>
+{% endblock %}

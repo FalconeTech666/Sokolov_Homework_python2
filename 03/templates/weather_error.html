@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Город не найден{% endblock %}
+
+{% block content %}
+<h1>Город не найден</h1>
+
+<p>
+    К сожалению, не удалось найти погоду для
+    <strong>{{ city_display }}</strong>.
+</p>
+
+{% if error_message %}
+    <p class="muted">
+        Детали: {{ error_message }}
+    </p>
+{% endif %}
+
+<p class="muted">
+    Попробуй ввести название по‑другому или добавить страну, например:
+    <code>/weather/London,UK/</code> или <code>/weather/Minsk,BY/</code>.
+</p>
+
+<p class="center" style="margin-top: 20px;">
+    <a href="{{ url_for('weather_minsk') }}">Погода в Минске</a> |
+    <a href="{{ url_for('index') }}">На главную</a>
+</p>
+{% endblock %}

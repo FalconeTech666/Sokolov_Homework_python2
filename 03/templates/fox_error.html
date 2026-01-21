@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка количества лис{% endblock %}
+
+{% block content %}
+<h1>Неверное количество лис</h1>
+<p>Можно запросить только от <strong>1</strong> до <strong>10</strong> лис.</p>
+
+<p class="muted">
+    Измени число в адресе, например:
+    <code>/fox/3/</code> или <code>/fox/7/</code>.
+</p>
+
+<p class="center" style="margin-top: 20px;">
+    <a href="{{ url_for('index') }}">На главную</a>
+</p>
+{% endblock %}

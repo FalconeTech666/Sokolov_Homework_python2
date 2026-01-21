@@ -1,25 +1,273 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- название страницы - надпись в браузере на вкладке -->
-    <title>Document 123</title>
-    
+  <meta charset="UTF-8">
+  <title>Выбор машины</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 28px 32px 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 28px;
+      backdrop-filter: blur(16px);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .left {
+      text-align: left;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 24px;
+    }
+
+    .select-row {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 14px;
+      outline: none;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, #e5e7eb 50%),
+                        linear-gradient(135deg, #e5e7eb 50%, transparent 50%);
+      background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 1px #3b82f6;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.18);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      font-size: 12px;
+      color: #a5f3fc;
+    }
+
+    .stat span {
+      color: #e5e7eb;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .image-wrapper {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      background: radial-gradient(circle at top, #4b5563 0, #111827 60%, #020617 100%);
+      border: 1px solid rgba(75, 85, 99, 0.7);
+    }
+
+    #car-image {
+      display: block;
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.5s ease, opacity 0.3s ease;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      color: #e5e7eb;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .badge-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      margin-right: 6px;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .brand-desc {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+  </style>
 </head>
 <body>
+  <div class="card">
+    <div class="left">
+      <h1>Выбери марку машины</h1>
+      <div class="subtitle">Мини‑конфигуратор: выбери бренд и смотри, как меняется картинка.</div>
 
-    <!-- ЗАГОЛОВОК -->
-    <h1>Страница 1</h1> 
-    
-    <!-- АБЗАЦ -->
-    <p> some text </p>
+      <div class="select-row">
+        <label for="brand">Марка</label>
+        <select id="brand" name="brand">
+          <option value="bmw" selected>BMW</option>
+          <option value="audi">Audi</option>
+          <option value="mercedes">Mercedes-Benz</option>
+        </select>
+        <div class="hint">Клики по списку сразу обновляют изображение справа.</div>
+      </div>
 
-    <!-- КАРТИНКИ -->
-    <img src="https://masterpiecer-images.s3.yandex.net/5fd531dca6427c7:upscaled" alt="no image" width="400" height="400">
-    <img src="cat.jpg" alt="123" alt="no image" width="400" height="400">
-    <img src="cat1.jpg" alt="no image" alt="no image" width="400" height="400">
+      <div class="stats">
+        <div class="stat">Класс <span id="class-label">Бизнес‑седан</span></div>
+        <div class="stat">Страна <span id="country-label">Германия</span></div>
+      </div>
+    </div>
 
+    <div class="right">
+      <div class="image-wrapper">
+        <div class="badge"><span class="badge-dot"></span> DEMO GARAGE</div>
+        <img id="car-image" src="/images/bmw.jpg" alt="Машина">
+      </div>
+      <div class="brand-name" id="brand-name">BMW</div>
+      <div class="brand-desc" id="brand-desc">Драйверский характер и точная управляемость.</div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      bmw: {
+        image: "/images/bmw.jpg",
+        name: "BMW",
+        desc: "Драйверский характер и точная управляемость.",
+        classLabel: "Бизнес‑седан",
+        country: "Германия"
+      },
+      audi: {
+        image: "/images/audi.jpg",
+        name: "Audi",
+        desc: "Технологичность, строгий дизайн и quattro.",
+        classLabel: "Премиум‑седан",
+        country: "Германия"
+      },
+      mercedes: {
+        image: "/images/mercedes.jpg",
+        name: "Mercedes‑Benz",
+        desc: "Комфорт, статус и мягкий ход.",
+        classLabel: "Бизнес‑класс",
+        country: "Германия"
+      }
+    };
+
+    const select = document.getElementById("brand");
+    const img = document.getElementById("car-image");
+    const brandName = document.getElementById("brand-name");
+    const brandDesc = document.getElementById("brand-desc");
+    const classLabel = document.getElementById("class-label");
+    const countryLabel = document.getElementById("country-label");
+
+    function updateUI(brand) {
+      const item = data[brand];
+      if (!item) return;
+
+      img.style.opacity = "0";
+      img.style.transform = "scale(1.03)";
+      setTimeout(() => {
+        img.src = item.image;
+        img.onload = () => {
+          img.style.opacity = "1";
+          img.style.transform = "scale(1)";
+        };
+      }, 150);
+
+      brandName.textContent = item.name;
+      brandDesc.textContent = item.desc;
+      classLabel.textContent = item.classLabel;
+      countryLabel.textContent = item.country;
+    }
+
+    select.addEventListener("change", () => {
+      updateUI(select.value);
+    });
+
+    updateUI("bmw");
+  </script>
 </body>
 </html>

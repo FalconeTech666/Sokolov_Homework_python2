@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Погода — {{ city_display }}{% endblock %}
+
+{% block content %}
+<h1>Погода в {{ city_display }}</h1>
+
+<div style="display: flex; gap: 30px; margin-top: 10px; align-items: flex-start;">
+
+    <div style="flex: 1;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            {% if icon_url %}
+                <img src="{{ icon_url }}" alt="{{ description }}" style="width: 80px; height: 80px;">
+            {% endif %}
+            <div>
+                <div style="font-size: 2.5rem;">
+                    {{ temp }}°C
+                </div>
+                <div class="muted">
+                    Ощущается как {{ feels_like }}°C
+                </div>
+                <div>
+                    {{ description|capitalize }}
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <strong>Влажность:</strong> {{ humidity }}%<br>
+            <strong>Давление:</strong> {{ pressure }} гПа<br>
+            <strong>Скорость ветра:</strong> {{ wind_speed }} м/с
+        </div>
+
+        <div class="muted" style="margin-top: 10px;">
+            Обновлено: {{ updated_at }}
+        </div>
+    </div>
+
+    {% if forecast_days %}
+    <div style="flex: 1;">
+        <h3 class="muted">Ближайшие часы</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+            {% for day in forecast_days %}
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                    <div style="width: 80px;">
+                        {{ day.date }}
+                    </div>
+                    {% if day.icon_url %}
+                        <img src="{{ day.icon_url }}" alt="{{ day.description }}" style="width: 32px; height: 32px;">
+                    {% endif %}
+                    <div>
+                        {{ day.temp }}°C<br>
+                        <span class="muted">{{ day.description|capitalize }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<p class="center" style="margin-top: 20px;">
+    <a href="{{ url_for('weather_minsk') }}">Погода в Минске</a> |
+    <a href="{{ url_for('index') }}">На главную</a>
+</p>
+{% endblock %}

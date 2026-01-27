@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Вход — Животные и погода{% endblock %}
+
+{% block content %}
+<h1>Вход</h1>
+
+{% if errors %}
+    <div style="background:#ffe5e5; border:1px solid #ff9999; padding:10px 12px; border-radius:6px; margin-bottom:16px; color:#a10000;">
+        <strong>Ошибка:</strong>
+        <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<form method="post" action="{{ url_for('login') }}" style="display:flex; flex-direction:column; gap:12px; max-width:400px;">
+
+    <label>
+        Логин:
+        <input
+            type="text"
+            name="login"
+            value="{{ form_data.get('login', '') }}"
+            required
+            style="width:100%; padding:6px 8px; margin-top:4px; box-sizing:border-box;"
+        >
+    </label>
+
+    <label>
+        Пароль:
+        <input
+            type="password"
+            name="password"
+            required
+            style="width:100%; padding:6px 8px; margin-top:4px; box-sizing:border-box;"
+        >
+    </label>
+
+    <button
+        type="submit"
+        style="
+            margin-top:8px;
+            padding:8px 12px;
+            background:#0077cc;
+            color:#fff;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+        "
+    >
+        Войти
+    </button>
+</form>
+
+<p class="muted" style="margin-top:12px;">
+    Ещё нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь</a>.
+</p>
+{% endblock %}

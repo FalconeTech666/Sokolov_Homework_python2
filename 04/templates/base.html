@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Животные и погода{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            /* сюда можно добавлять общие переменные при желании */
+        }
+
+        /* Светлая тема */
+        body[data-theme="light"] {
+            --bg: #f3f4f6;
+            --bg-soft: #e5e7eb;
+            --card-bg: #ffffff;
+            --accent: #2563eb;
+            --accent-soft: rgba(37, 99, 235, 0.08);
+            --accent-strong: #1d4ed8;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-subtle: rgba(148, 163, 184, 0.6);
+            --danger: #b91c1c;
+
+            background:
+                radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 55%),
+                linear-gradient(to bottom, #eef2ff 0, #f9fafb 60%, #eef2ff 100%);
+            color: var(--text-main);
+        }
+
+        /* Тёмная тема */
+        body[data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-soft: #111827;
+            --card-bg: #020617;
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.12);
+            --accent-strong: #0ea5e9;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border-subtle: rgba(148, 163, 184, 0.25);
+            --danger: #f97373;
+
+            background: radial-gradient(circle at top, #1f2937 0, #020617 45%);
+            color: var(--text-main);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .page-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 16px 16px 40px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 10px 18px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        body[data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .brand-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #facc15, #fb923c);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #111827;
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+        }
+
+        header a {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        header a:hover {
+            color: var(--accent-strong);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link {
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            font: inherit;
+            color: var(--text-main);
+        }
+
+        .nav-link:hover {
+            border-color: var(--border-subtle);
+            background: var(--accent-soft);
+        }
+
+        .nav-primary {
+            border-color: var(--border-subtle);
+            background: #eff6ff;
+        }
+
+        .nav-primary:hover {
+            background: #dbeafe;
+            border-color: var(--accent-strong);
+            color: var(--accent-strong);
+        }
+
+        body[data-theme="dark"] .nav-primary {
+            background: rgba(15,23,42,0.9);
+            border-color: var(--border-subtle);
+            color: var(--text-main);
+        }
+
+        body[data-theme="dark"] .nav-primary:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent-strong);
+            color: var(--accent-strong);
+        }
+
+        .user-chip {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            background: #f9fafb;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        body[data-theme="dark"] .user-chip {
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        main {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px 22px 24px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.07),
+                0 0 0 1px rgba(255, 255, 255, 0.6);
+        }
+
+        body[data-theme="dark"] main {
+            border-color: rgba(148, 163, 184, 0.4);
+            box-shadow:
+                0 24px 60px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+        }
+
+        .welcome-line {
+            margin: 0 0 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            letter-spacing: 0.01em;
+        }
+
+        h1 { font-size: 1.7rem; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            padding: 16px 18px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        body[data-theme="dark"] .card {
+            border-color: rgba(148, 163, 184, 0.35);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.85);
+        }
+
+        .card + .card { margin-top: 16px; }
+
+        .muted {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        a {
+            color: var(--accent-strong);
+            text-decoration: none;
+        }
+
+        a:hover { text-decoration: underline; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: var(--accent);
+            color: #eff6ff;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover { background: var(--accent-strong); }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--text-main);
+            border-color: var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-strong);
+            color: var(--accent-strong);
+            background: #eff6ff;
+        }
+
+        body[data-theme="dark"] .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        body[data-theme="dark"] .btn-secondary:hover {
+            background: rgba(15,23,42,0.95);
+        }
+
+        form { margin-top: 4px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 16px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.95rem;
+        }
+
+        .form-field-full { grid-column: 1 / -1; }
+
+        label span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"] {
+            padding: 7px 9px;
+            border-radius: 10px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            background: #f9fafb;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        body[data-theme="dark"] input[type="text"],
+        body[data-theme="dark"] input[type="email"],
+        body[data-theme="dark"] input[type="number"],
+        body[data-theme="dark"] input[type="password"] {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(148, 163, 184, 0.7);
+            color: var(--text-main);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-strong);
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+            background: #ffffff;
+        }
+
+        body[data-theme="dark"] input:focus {
+            box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.45);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .error-box {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: var(--danger);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        body[data-theme="dark"] .error-box {
+            background: rgba(185, 28, 28, 0.12);
+            border-color: rgba(248, 113, 113, 0.9);
+            color: #fecaca;
+        }
+
+        .error-box ul {
+            margin: 6px 0 0;
+            padding-left: 18px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: #f9fafb;
+        }
+
+        body[data-theme="dark"] .tag {
+            background: rgba(15,23,42,0.95);
+            border-color: rgba(148,163,184,0.6);
+        }
+
+        .center { text-align: center; }
+
+        @media (max-width: 700px) {
+            .page-wrap { padding: 12px 10px 26px; }
+            header { padding: 8px 10px; }
+            nav { gap: 6px; }
+            main { padding: 16px 14px 18px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+<div class="page-wrap">
+    <header>
+        <div class="brand">
+            <a href="{{ url_for('index') }}" style="display:flex;align-items:center;gap:8px;">
+                <span class="brand-logo">🐾</span>
+                <span>Животные и погода</span>
+            </a>
+        </div>
+        <nav>
+            <button id="theme-toggle" type="button" class="nav-link">
+                Тема: светлая
+            </button>
+
+            {% if user %}
+                <span class="user-chip">
+                    Приветствуем вас {{ user.first_name }} {{ user.last_name }}
+                </span>
+                <a href="{{ url_for('logout') }}" class="nav-link nav-primary">Выход</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-link nav-primary">Вход</a>
+                <a href="{{ url_for('register') }}" class="nav-link">Регистрация</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script>
+    (function () {
+        const body = document.body;
+        const btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+
+        const THEME_KEY = 'site_theme';
+
+        function applyTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            btn.textContent = theme === 'dark' ? 'Тема: тёмная' : 'Тема: светлая';
+        }
+
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved === 'light' || saved === 'dark') {
+            applyTheme(saved);
+        } else {
+            const prefersDark = window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(prefersDark ? 'dark' : 'light');
+        }
+
+        btn.addEventListener('click', function () {
+            const current = body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            localStorage.setItem(THEME_KEY, next);
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Случайные лисы{% endblock %}
+
+{% block content %}
+<h1>{{ count }} случайных лис</h1>
+
+<p class="muted">
+    Каждое обновление страницы или изменение числа в адресе даёт новый набор картинок.
+</p>
+
+<div class="center">
+    {% for url in images %}
+        <div style="margin: 15px 0;">
+            <img src="{{ url }}" alt="Случайная лиса {{ loop.index }}" style="max-width: 100%; border-radius: 8px;">
+        </div>
+    {% endfor %}
+</div>
+
+<p class="center" style="margin-top: 20px;">
+    <a href="{{ url_for('fox', count=count) }}">Обновить этих лис</a> |
+    <a href="{{ url_for('index') }}">На главную</a>
+</p>
+{% endblock %}

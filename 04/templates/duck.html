@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Рандомная утка{% endblock %}
+
+{% block content %}
+<h1>Рандомная утка №{{ duck_number }}</h1>
+
+<div class="center">
+    <p class="muted">Каждое обновление страницы показывает новую утку.</p>
+    <img src="{{ image_url }}" alt="Случайная утка" style="max-width: 100%; border-radius: 8px;">
+</div>
+
+<p class="center" style="margin-top: 20px;">
+    <a href="{{ url_for('duck') }}">Ещё утка</a> |
+    <a href="{{ url_for('index') }}">На главную</a>
+</p>
+{% endblock %}

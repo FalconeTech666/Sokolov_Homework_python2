@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Вы вошли — Животные и погода{% endblock %}
+
+{% block content %}
+<h1>Здравствуйте, {{ user.first_name }}!</h1>
+<p>Вы успешно вошли в систему.</p>
+<p><a href="{{ url_for('index') }}">На главную</a></p>
+{% endblock %}
